@@ -1,18 +1,22 @@
 package com.amazon.ata.advertising.service.businesslogic;
 
 import com.amazon.ata.advertising.service.dao.ReadableDao;
-import com.amazon.ata.advertising.service.model.AdvertisementContent;
-import com.amazon.ata.advertising.service.model.EmptyGeneratedAdvertisement;
-import com.amazon.ata.advertising.service.model.GeneratedAdvertisement;
+import com.amazon.ata.advertising.service.model.*;
+import com.amazon.ata.advertising.service.targeting.TargetingEvaluator;
 import com.amazon.ata.advertising.service.targeting.TargetingGroup;
 
+import com.amazon.ata.advertising.service.targeting.predicate.TargetingPredicateResult;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * This class is responsible for picking the advertisement to be rendered.
@@ -27,7 +31,8 @@ public class AdvertisementSelectionLogic {
 
     /**
      * Constructor for AdvertisementSelectionLogic.
-     * @param contentDao Source of advertising content.
+     *
+     * @param contentDao        Source of advertising content.
      * @param targetingGroupDao Source of targeting groups for each advertising content.
      */
     @Inject
@@ -39,6 +44,7 @@ public class AdvertisementSelectionLogic {
 
     /**
      * Setter for Random class.
+     *
      * @param random generates random number used to select advertisements.
      */
     public void setRandom(Random random) {
@@ -50,25 +56,31 @@ public class AdvertisementSelectionLogic {
      * eligible content with the highest click through rate.  If no advertisement is available or eligible, returns an
      * EmptyGeneratedAdvertisement.
      *
-     * @param customerId - the customer to generate a custom advertisement for
+     * @param customerId    - the customer to generate a custom advertisement for
      * @param marketplaceId - the id of the marketplace the advertisement will be rendered on
      * @return an advertisement customized for the customer id provided, or an empty advertisement if one could
-     *     not be generated.
+     * not be generated.
      */
     public GeneratedAdvertisement selectAdvertisement(String customerId, String marketplaceId) {
         GeneratedAdvertisement generatedAdvertisement = new EmptyGeneratedAdvertisement();
+
         if (StringUtils.isEmpty(marketplaceId)) {
             LOG.warn("MarketplaceId cannot be null or empty. Returning empty ad.");
         } else {
-            final List<AdvertisementContent> contents = contentDao.get(marketplaceId);
-
-            if (CollectionUtils.isNotEmpty(contents)) {
-                AdvertisementContent randomAdvertisementContent = contents.get(random.nextInt(contents.size()));
-                generatedAdvertisement = new GeneratedAdvertisement(randomAdvertisementContent);
-            }
-
+            RequestContext requestContext = new RequestContext(customerId, marketplaceId);
+            TargetingEvaluator targetingEvaluator = new TargetingEvaluator(requestContext);
+           generatedAdvertisement = new GeneratedAdvertisement(contentDao.get(marketplaceId).stream()
+                    .map(advertisementContent -> targetingGroupDao.get(advertisementContent.getContentId())
+                            .stream()
+                            .sorted(Comparator.comparingDouble(TargetingGroup::getClickThroughRate))
+                            .map(targetingEvaluator::evaluate)
+                            .anyMatch(TargetingPredicateResult::isTrue) ? advertisementContent : null)
+                    .filter(Objects::nonNull)
+                    .findAny()
+                    .get());
         }
-
         return generatedAdvertisement;
+
+
     }
 }
