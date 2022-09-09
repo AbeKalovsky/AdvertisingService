@@ -50,6 +50,7 @@ public class AddTargetingGroupActivity {
     public AddTargetingGroupResponse addTargetingGroup(AddTargetingGroupRequest request) {
         String contentId = request.getContentId();
         //TODO Check if you're having errors later
+        //Comment for another push
 //        List<com.amazon.ata.advertising.service.model.TargetingPredicate> requestedTargetingPredicates =
 //            request.getTargetingPredicates();
 //        LOG.info(String.format("Adding targeting predicates [%s] to content with id: %s.",
