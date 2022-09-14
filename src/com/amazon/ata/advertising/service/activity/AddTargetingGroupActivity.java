@@ -67,9 +67,11 @@ public class AddTargetingGroupActivity {
 //            }
 //        }
 
-        TargetingGroup targetingGroup = targetingGroupDao.create(contentId, emptyIfNull(request.getTargetingPredicates()).stream()
+        TargetingGroup targetingGroup = targetingGroupDao.create(contentId, emptyIfNull(request.getTargetingPredicates())
+                .stream()
                 .filter(Objects::nonNull)
-                .map(TargetingPredicateTranslator::fromCoral).collect(Collectors.toList()));
+                .map(TargetingPredicateTranslator::fromCoral)
+                .collect(Collectors.toList()));
 
         return AddTargetingGroupResponse.builder()
                 .withTargetingGroup(TargetingGroupTranslator.toCoral(targetingGroup))

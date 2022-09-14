@@ -4,8 +4,11 @@ import com.amazon.ata.advertising.service.model.RequestContext;
 import com.amazon.ata.advertising.service.targeting.predicate.TargetingPredicate;
 import com.amazon.ata.advertising.service.targeting.predicate.TargetingPredicateResult;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Evaluates TargetingPredicates for a given RequestContext.
@@ -31,6 +34,7 @@ public class TargetingEvaluator {
      */
     public TargetingPredicateResult evaluate(TargetingGroup targetingGroup) {
 //        List<TargetingPredicate> targetingPredicates = targetingGroup.getTargetingPredicates();
+
 //        boolean allTruePredicates = true;
 //        for (TargetingPredicate predicate : targetingPredicates) {
 //            TargetingPredicateResult predicateResult = predicate.evaluate(requestContext);
@@ -39,17 +43,29 @@ public class TargetingEvaluator {
 //                break;
 //            }
 //        }
-//
+
 //        return allTruePredicates ? TargetingPredicateResult.TRUE :
 //                                   TargetingPredicateResult.FALSE;
 //    }
 
-        return targetingGroup.getTargetingPredicates()
-                .stream()
-                .allMatch(targetingPredicate -> targetingPredicate.evaluate(requestContext).isTrue())
-                ? TargetingPredicateResult.TRUE : TargetingPredicateResult.FALSE;
+//        List<Future<TargetingPredicateResult>> futures = targetingGroup.getTargetingPredicates()
+//                .stream()
+//                .map(targetingPredicate -> executorService.submit(() -> targetingPredicate.evaluate(requestContext)))
+//                .collect(Collectors.toList());
+//
+//        return futures.stream()
+//                ;
 
-//                .allMatch(targetingPredicate -> targetingPredicate.evaluate(requestContext).isTrue())
-
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        try {
+            return executorService.submit(() -> targetingGroup.getTargetingPredicates()
+                    .parallelStream()
+                    .allMatch(targetingPredicate -> targetingPredicate.evaluate(requestContext).isTrue())
+                    ? TargetingPredicateResult.TRUE : TargetingPredicateResult.FALSE).get();
+        } catch (CancellationException | ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        executorService.shutdown();
+        return TargetingPredicateResult.FALSE;
     }
 }

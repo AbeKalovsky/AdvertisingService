@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
 
@@ -61,7 +62,7 @@ public class AdvertisementSelectionLogic {
      * @return an advertisement customized for the customer id provided, or an empty advertisement if one could
      * not be generated.
      */
-    public GeneratedAdvertisement selectAdvertisement(String customerId, String marketplaceId) {
+    public GeneratedAdvertisement selectAdvertisement(String customerId, String marketplaceId)  {
         GeneratedAdvertisement generatedAdvertisement = new EmptyGeneratedAdvertisement();
 
         if (StringUtils.isEmpty(marketplaceId)) {

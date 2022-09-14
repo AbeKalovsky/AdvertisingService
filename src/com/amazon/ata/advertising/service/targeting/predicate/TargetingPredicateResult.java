@@ -1,10 +1,12 @@
 package com.amazon.ata.advertising.service.targeting.predicate;
 
+import java.util.function.Supplier;
+
 /**
  * Possible outcomes from a targeting predicate's evaluate method. If a TRUE/FALSE value cannot be evaluated,
  * INDETERMINATE will be returned.
  */
-public enum TargetingPredicateResult {
+public enum TargetingPredicateResult  {
     TRUE(true), FALSE(false), INDETERMINATE(false);
 
     private boolean isTrueResult;
@@ -38,4 +40,6 @@ public enum TargetingPredicateResult {
         }
 
     }
+
+
 }
