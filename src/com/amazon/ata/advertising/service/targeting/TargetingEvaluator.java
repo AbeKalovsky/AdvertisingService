@@ -32,7 +32,7 @@ public class TargetingEvaluator {
      * @param targetingGroup Targeting group for an advertisement, including TargetingPredicates.
      * @return TRUE if all of the TargetingPredicates evaluate to TRUE against the RequestContext, FALSE otherwise.
      */
-    public TargetingPredicateResult evaluate(TargetingGroup targetingGroup) {
+
 //        List<TargetingPredicate> targetingPredicates = targetingGroup.getTargetingPredicates();
 
 //        boolean allTruePredicates = true;
@@ -55,7 +55,7 @@ public class TargetingEvaluator {
 //
 //        return futures.stream()
 //                ;
-
+        public TargetingPredicateResult evaluate(TargetingGroup targetingGroup) {
         ExecutorService executorService = Executors.newCachedThreadPool();
         try {
             return executorService.submit(() -> targetingGroup.getTargetingPredicates()

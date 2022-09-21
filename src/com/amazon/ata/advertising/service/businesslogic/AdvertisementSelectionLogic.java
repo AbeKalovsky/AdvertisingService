@@ -5,8 +5,10 @@ import com.amazon.ata.advertising.service.model.*;
 import com.amazon.ata.advertising.service.targeting.TargetingEvaluator;
 import com.amazon.ata.advertising.service.targeting.TargetingGroup;
 
+import com.amazon.ata.advertising.service.targeting.predicate.TargetingPredicate;
 import com.amazon.ata.advertising.service.targeting.predicate.TargetingPredicateResult;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 
 /**
  * This class is responsible for picking the advertisement to be rendered.
@@ -65,23 +68,42 @@ public class AdvertisementSelectionLogic {
     public GeneratedAdvertisement selectAdvertisement(String customerId, String marketplaceId)  {
         GeneratedAdvertisement generatedAdvertisement = new EmptyGeneratedAdvertisement();
 
+        SortedMap<TargetingGroup, AdvertisementContent> sortedMap =
+                new TreeMap<>(Comparator.comparingDouble(TargetingGroup::getClickThroughRate).reversed());
         if (StringUtils.isEmpty(marketplaceId)) {
             LOG.warn("MarketplaceId cannot be null or empty. Returning empty ad.");
         } else {
             RequestContext requestContext = new RequestContext(customerId, marketplaceId);
             TargetingEvaluator targetingEvaluator = new TargetingEvaluator(requestContext);
-           generatedAdvertisement = new GeneratedAdvertisement(contentDao.get(marketplaceId).stream()
-                    .map(advertisementContent -> targetingGroupDao.get(advertisementContent.getContentId())
-                            .stream()
-                            .sorted(Comparator.comparingDouble(TargetingGroup::getClickThroughRate))
-                            .map(targetingEvaluator::evaluate)
-                            .anyMatch(TargetingPredicateResult::isTrue) ? advertisementContent : null)
-                    .filter(Objects::nonNull)
-                    .findAny()
-                    .get());
+            for (AdvertisementContent content : contentDao.get(marketplaceId)) {
+                 targetingGroupDao.get(content.getContentId())
+                         .stream()
+                         .sorted(sortedMap.comparator())
+                         .filter(targetingGroup -> targetingEvaluator.evaluate(targetingGroup).isTrue())
+                         .findFirst()
+                         .ifPresent(targetingGroup -> sortedMap.put(targetingGroup, content));
+
+            }
+            if (!sortedMap.isEmpty()) {
+                final AdvertisementContent preparedContent = sortedMap.get(sortedMap.firstKey());
+                return new GeneratedAdvertisement(preparedContent);
+            }
+
+
+
         }
         return generatedAdvertisement;
 
 
     }
 }
+//           generatedAdvertisement = new GeneratedAdvertisement(contentDao.get(marketplaceId).stream()
+//                    .map(advertisementContent -> targetingGroupDao.get(advertisementContent.getContentId())
+//                            .stream()
+//                            .sorted(sortedMap.comparator())
+////                            .sorted(Comparator.comparingDouble(TargetingGroup::getClickThroughRate))
+//                            .map(targetingEvaluator::evaluate)
+//                            .anyMatch(TargetingPredicateResult::isTrue) ? advertisementContent : null)
+//                    .filter(Objects::nonNull)
+//                    .findFirst()
+//                   .get());
