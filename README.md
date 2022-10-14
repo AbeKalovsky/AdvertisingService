@@ -50,6 +50,7 @@ before continuing below.
 My Contributions:   
 - [Class diagram](src/resources/mastery-task1-kindle-publishing-CD.puml)  
 - [Sequence diagram](src/resources/mastery-task1-remove-book-SD.puml)  
+- [Remove Book](https://github.com/AbeKalovsky/kindle_publishing_service/commit/5431a9b1009d76d2338516e3409f4cbe87655c89#diff-425953d684a72c3bf3cfd03b7640ef448c58a593f6132aa59de3fdd966212fc4)
 - [Soft Delete](src/com/amazon/ata/kindlepublishingservice/dao/CatalogDao.java)  
 
 ### [Mastery Task 2: Submit to the process](tasks/MasteryTask02.md)
