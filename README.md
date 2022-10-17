@@ -48,7 +48,7 @@ before continuing below.
 ### [Mastery Task 1: Filter Out the Noise](tasks/project-mastery-tasks/MasteryTask01.md)
 
 My Contributions:   
-- [Class diagram](src/resources/mastery-task1-kindle-publishing-CD.puml)  
+- [AddTargetingGroupActivity (Updated to use Streams]((https://github.com/AbeKalovsky/advertising_service/commit/e9c551661b0e0d31a2c29cea005e361ed92add75#diff-b75ca21099df519fe8211d569ede706ec1e35f3070ac837d1fbe516abc2a7a50))  
 - [Sequence diagram](src/resources/mastery-task1-remove-book-SD.puml)  
 - [Remove Book](https://github.com/AbeKalovsky/kindle_publishing_service/commit/5431a9b1009d76d2338516e3409f4cbe87655c89#diff-425953d684a72c3bf3cfd03b7640ef448c58a593f6132aa59de3fdd966212fc4)
 - [Soft Delete](src/com/amazon/ata/kindlepublishingservice/dao/CatalogDao.java)  
