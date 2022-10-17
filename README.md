@@ -54,11 +54,11 @@ My Contributions:
 
   
 
-### [Mastery Task 2: Submit to the process](tasks/MasteryTask02.md)
+### [Mastery Task 2: Concurrent Tasks](tasks/project-mastery-tasks/MasteryTask02.md)
 
 My Contributions:
-- [BookPublishRequestManger](src/com/amazon/ata/kindlepublishingservice/publishing/BookPublishingRequestManager.java)  
-- [SubmitBookForPublishingActivity](src/com/amazon/ata/kindlepublishingservice/activity/SubmitBookForPublishingActivity.java) 
+- [TargetingEvaluator(Updated for multi-threading)](https://github.com/AbeKalovsky/advertising_service/commit/508d29f6e5a52733690128f32f944c10297e3381#diff-02dc29df07086cb92039935496cf1f687b78fda8da17ea97a0634412dd2d042d)  
+
 
 ### [Mastery Task 3: Query, query on the wall, don’t load one, get them all!](tasks/MasteryTask03.md)
 
