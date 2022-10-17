@@ -45,7 +45,7 @@ before continuing below.
 ## Project Mastery Tasks
 
 #### Under each mastery task I have linked to parts of the project that are my code.  
-### [Mastery Task 1: Killing me softly](tasks/MasteryTask01.md)
+### [Mastery Task 1: Filter Out the Noise](tasks/project-mastery-tasks/MasteryTask01.md)
 
 My Contributions:   
 - [Class diagram](src/resources/mastery-task1-kindle-publishing-CD.puml)  
