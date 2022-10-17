@@ -60,17 +60,10 @@ My Contributions:
 - [TargetingEvaluator(Updated for multi-threading)](https://github.com/AbeKalovsky/advertising_service/commit/508d29f6e5a52733690128f32f944c10297e3381#diff-02dc29df07086cb92039935496cf1f687b78fda8da17ea97a0634412dd2d042d)  
 
 
-### [Mastery Task 3: Query, query on the wall, don’t load one, get them all!](tasks/MasteryTask03.md)
+### [Mastery Task 3: Ads don't grow on trees (or do they?)](tasks/project-mastery-tasks/MasteryTask03.md)
 
 My Contributions:
-- [DynamoDB Query](src/com/amazon/ata/kindlepublishingservice/dao/PublishingStatusDao.java)
-- [GetPublishingStatus](src/com/amazon/ata/kindlepublishingservice/activity/GetPublishingStatusActivity.java) 
+- [AdvertisementSelectionsLogic](https://github.com/AbeKalovsky/advertising_service/commit/2ad8f0aa4ec1ca3b35dc6a236532c89a8c2dbfb2#diff-36f50daf88514c690c1d9339374398391757eec05677bedfbe6d07d6b5c8e7f8)
 
-### [Mastery Task 4: Make a run(nable) for it](tasks/MasteryTask04.md)
-
-My Contributions:
-- [BookPublishTask (Runnable)](src/com/amazon/ata/kindlepublishingservice/publishing/BookPublishTask.java)
-- [BookPublishingRequestManager(Updated for Thread Safety)](src/com/amazon/ata/kindlepublishingservice/publishing/BookPublishingRequestManager.java)
-- [BookPublishRequest(Updated for Thread Safety)](src/com/amazon/ata/kindlepublishingservice/publishing/BookPublishRequest.java)
 
 
