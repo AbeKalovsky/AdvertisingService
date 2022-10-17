@@ -49,7 +49,7 @@ before continuing below.
 
 My Contributions:   
 - [TargetingEvaluator](https://github.com/AbeKalovsky/advertising_service/commit/e9c551661b0e0d31a2c29cea005e361ed92add75#diff-02dc29df07086cb92039935496cf1f687b78fda8da17ea97a0634412dd2d042d)
-- [AddTargetingGroupActivity (Updated to use Streams)](https://github.com/AbeKalovsky/advertising_service/commit/e9c551661b0e0d31a2c29cea005e361ed92add75#diff-b75ca21099df519fe8211d569ede706ec1e35f3070ac837d1fbe516abc2a7a50)  
+- [AddTargetingGroupActivity(Updated to use Streams)](https://github.com/AbeKalovsky/advertising_service/commit/e9c551661b0e0d31a2c29cea005e361ed92add75#diff-b75ca21099df519fe8211d569ede706ec1e35f3070ac837d1fbe516abc2a7a50)  
 - [AdvertisementSelectionLogic(Updated to use Streams)](https://github.com/AbeKalovsky/advertising_service/commit/e9c551661b0e0d31a2c29cea005e361ed92add75#diff-36f50daf88514c690c1d9339374398391757eec05677bedfbe6d07d6b5c8e7f8)  
 
   
